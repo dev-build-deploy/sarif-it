@@ -4,6 +4,7 @@
  */
 
 import * as sarif from "../src";
+import * as fs from "fs";
 
 describe("Log", () => {
   test("Default", () => {
@@ -50,7 +51,17 @@ describe("Log", () => {
 
   test("Get Missing Property", () => {
     const log = new sarif.Log();
-    expect(() => { log.get("does-not-exist") }).toThrowError("Property 'does-not-exist' does not exist.");
+    expect(() => {
+      log.get("does-not-exist");
+    }).toThrowError("Property 'does-not-exist' does not exist.");
+  });
+
+  test("From File", () => {
+    const log = sarif.Log.fromFile("test/fixtures/example.sarif");
+    expect(log).toBeInstanceOf(sarif.Log);
+    expect(log.properties()).toStrictEqual(
+      JSON.parse(fs.readFileSync("test/fixtures/example.sarif", { encoding: "utf-8" }))
+    );
   });
 });
 
@@ -349,7 +360,10 @@ describe("Tool", () => {
 
   test("Add Rules", () => {
     const tool = new sarif.Tool("sarif-it-test");
-    tool.addRule(new sarif.Rule("test-rule-a")).addRule(new sarif.Rule("test-rule-b")).addRule(new sarif.Rule("test-rule-a"));
+    tool
+      .addRule(new sarif.Rule("test-rule-a"))
+      .addRule(new sarif.Rule("test-rule-b"))
+      .addRule(new sarif.Rule("test-rule-a"));
     expect(tool).toBeInstanceOf(sarif.Tool);
     expect(tool.properties()).toStrictEqual({
       driver: {
@@ -362,7 +376,7 @@ describe("Tool", () => {
             id: "test-rule-a",
           },
         ],
-      }
+      },
     });
   });
 
@@ -373,6 +387,8 @@ describe("Tool", () => {
 
   test("Get Missing Property", () => {
     const tool = new sarif.Tool("sarif-it-test");
-    expect(() => { tool.get("version") }).toThrowError("Property 'version' does not exist.");
+    expect(() => {
+      tool.get("version");
+    }).toThrowError("Property 'version' does not exist.");
   });
 });
