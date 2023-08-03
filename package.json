@@ -27,7 +27,6 @@
   "homepage": "https://github.com/dev-build-deploy/sarif-it#readme",
   "devDependencies": {
     "@types/jest": "^29.5.2",
-    "@types/sarif": "^2.1.4",
     "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.11",
     "eslint": "^8.42.0",
@@ -38,5 +37,8 @@
   },
   "files": [
     "lib/*"
-  ]
+  ],
+  "dependencies": {
+    "@types/sarif": "^2.1.4"
+  }
 }
