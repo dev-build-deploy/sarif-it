@@ -9,6 +9,7 @@ repos:
   rev: v2.0.0
   hooks:
   - id: commit-me
+    args: ['--config', '.github/.commit-me.json']
 
 - repo: https://github.com/dev-build-deploy/reuse-me
   rev: v0.8.0
